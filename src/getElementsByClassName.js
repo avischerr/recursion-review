@@ -3,30 +3,25 @@
 //   return document.getElementsByClassName(className);
 // };
 
-// You should use document.body, element.childNodes, and element.classList
-
 // But instead we're going to implement it from scratch:
+
 var getElementsByClassName = function(className, currentNode) {
-  // create results array
   var results = [];
-  // check if node's class is equal to target class
-  // target element type? elements[i].nodeType === 1
-  if (currentNode) {
+
+  var getElementsHelper = function(currentNode) {
+    currentNode = currentNode || document.body;
     if (currentNode.classList.contains(className)) {
       results.push(currentNode);
     }
-
     if (currentNode.hasChildNodes()) {
-      for (var i = 0; i < currentNode.childNodes.length; i++) {
-        getElementsByClassName(className, currentNode.childNodes[i]);
+      for (var i = 0; i < currentNode.children.length; i++) {
+        var child = currentNode.children[i];
+        getElementsHelper(child);
       }
     }
-  }
+    return;
+  };
 
-  getElementsByClassName(className, document.body);
-
-  // return results
-  console.log(results);
+  getElementsHelper();
   return results;
-
 };
